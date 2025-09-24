@@ -63,3 +63,9 @@ def new_post():
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
+
+@main.route("/dashboard")
+@login_required
+def dashboard():
+    user_posts = Post.query.filter_by(author=current_user).order_by(Post.date_posted.desc()).all()
+    return render_template('dashboard.html', title='Dashboard', posts=user_posts)
