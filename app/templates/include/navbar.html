@@ -7,23 +7,23 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="btn btn-primary me-2" href="/dashboard">Dashboard</a>
+                        <a class="btn btn-primary me-2" href="{{ url_for('main.dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-secondary" href="/logout">Logout</a>
+                        <a class="btn btn-secondary" href="{{ url_for('main.logout') }}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="btn btn-primary me-2" href="/login">Login</a>
+                        <a class="btn btn-primary me-2" href="{{ url_for('main.login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-secondary" href="/register">Register</a>
+                        <a class="btn btn-secondary" href="{{ url_for('main.register') }}">Register</a>
                     </li>
                 {% endif %}
             </ul>
