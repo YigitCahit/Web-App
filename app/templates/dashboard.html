@@ -8,8 +8,14 @@
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
                 <p class="card-text">{{ post.content }}</p>
-                <p class="card-text"><small class="text-muted">Posted on {{ post.date_posted.strftime('%Y-%m-%d') }}</small></p>
-                <a href="/post/{{ post.id }}" class="btn btn-primary">Read More</a>
+                <p class="card-text">
+                    <small class="text-muted">Posted on {{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                </p>
+                <a href="{{ url_for('main.post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
+                <a href="{{ url_for('main.update_post', post_id=post.id) }}" class="btn btn-secondary">Edit</a>
+                <form action="{{ url_for('main.delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     {% else %}
