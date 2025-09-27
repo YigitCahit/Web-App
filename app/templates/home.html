@@ -1,15 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for post in posts %}
+    {% for post in posts.items %}
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">{{ post.title }}</h5>
                 <p class="card-text">{{ post.content[:200] }}</p>
-                <p class="card-text"><small class="text-muted">Posted on {{ post.date_posted.strftime('%Y-%m-%d') }} by {{ post.author.username }}</small></p>
-                <a href="/post/{{ post.id }}" class="btn btn-primary">Read More</a>
+                <p class="card-text">
+                    <small class="text-muted">Posted on {{ post.date_posted.strftime('%Y-%m-%d') }} by {{ post.author.username }}</small>
+                </p>
+                <a href="{{ url_for('main.post', post_id=post.id) }}" class="btn btn-primary">Read More</a>
             </div>
         </div>
     {% else %}
         <p>No posts available.</p>
     {% endfor %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {% if posts.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.paginate', page=posts.prev_num) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </span>
+                </li>
+            {% endif %}
+            {% for page_num in posts.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num == posts.page %}
+                        <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ url_for('main.paginate', page=page_num) }}">{{ page_num }}</a></li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.paginate', page=posts.next_num) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
