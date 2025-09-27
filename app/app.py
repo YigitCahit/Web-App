@@ -1,11 +1,16 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, Markup
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
+from markdown import markdown
 from . import db, login_manager
 from .models import User, Post
 from .forms import RegistrationForm, LoginForm, CreatePostForm
 
 main = Blueprint('main', __name__)
+
+@main.app_template_filter('markdown')
+def markdown_filter(text):
+    return Markup(markdown(text, extensions=['fenced_code', 'tables']))
 
 @main.route('/')
 def home():
