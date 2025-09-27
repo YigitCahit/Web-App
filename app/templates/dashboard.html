@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
     <h2>Your Posts</h2>
     <a href="{{ url_for('main.new_post') }}" class="btn btn-success mb-3">Create New Post</a>
